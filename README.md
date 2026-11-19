@@ -42,3 +42,10 @@ Error class thrown by all functions on invalid input.
 ## Awkward edge
 
 The dot notation is Cisco-style: three groups of four hex digits separated by dots. A common mistake is to write `001A.2B3C.4D5E` with lowercase or mixed case; the parser accepts both. However, it does **not** accept a dot-separated form with any other grouping, such as `00.1A.2B.3C.4D.5E` or `001. A2B.3C4.D5E`. Only the three-group form is valid.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
